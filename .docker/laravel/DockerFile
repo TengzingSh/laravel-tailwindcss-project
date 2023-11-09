@@ -1,0 +1,53 @@
+FROM php:8.1-fpm
+
+# Set working directory
+WORKDIR /var/www/laravel/
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    default-mysql-client \
+    libjpeg62-turbo-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libwebp-dev \
+    libgif-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl \
+    autoconf \
+    pkg-config \
+    libzip-dev \
+    zlib1g-dev \
+    libssl-dev \
+    libssl-doc \
+    libsasl2-dev \
+    libonig-dev \
+    libpq-dev \
+    libcurl4-openssl-dev \
+    ca-certificates \
+    supervisor \
+    libmagickwand-dev --no-install-recommends
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install extensions
+RUN docker-php-ext-install pdo_mysql zip exif pcntl
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
+RUN docker-php-ext-install gd
+RUN docker-php-ext-install pdo pdo_pgsql pgsql
+RUN pecl install imagick && docker-php-ext-enable imagick
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#Node.js, NPM, Yarn
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install npm@latest -g
+RUN npm install yarn -g

@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+    laravel:
+
+services:
+    php:
+        container_name: laravel_php
+        build:
+            context: .
+            dockerfile: .docker/laravel/DockerFile
+        ports:
+            - 5173:5173
+        volumes:
+            - .:/var/www/laravel
+            - .docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - laravel
+    nginx:
+        container_name: laravel_nginx
+        image: nginx
+        tty: true
+        ports:
+            - 80:80
+        volumes:
+            - .:/var/www/laravel
+            - .docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - php
+        networks:
+            - laravel
+    db:
+        container_name: laravel_mysql
+        image: mysql:latest
+        ports:
+            - 3306:3306
+        volumes:
+            - .docker/mysql/dbdata/:/var/lib/mysql-files/
+            - .docker/mysql/my.cnf:/etc/mysql/my.cnf
+        environment:
+            MYSQL_ROOT_PASSWORD: root1
+            MYSQL_DATABASE: booktraining
+            MYSQL_USER: root1
+            MYSQL_PASSWORD: password
+        networks:
+            - laravel
