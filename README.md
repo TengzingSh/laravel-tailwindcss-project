@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+
 <h2> To run this project</h2>
 
-<p>git clone https://geniusProDEv@bitbucket.org/5woody/book-training.git && cd book-training</p> 
+<p>git clone https://github.com/TengzingSh/laravel-tailwindcss-project.git && cd book-training</p> 
 <p>docker-compose build </p> 
 <p>docker-compose up -d</p> 
 <p>cp .env.example .env</p> 
@@ -16,7 +16,7 @@
 
 <h2> To upgrade this project</h2>
 
-<p>git clone https://geniusProDEv@bitbucket.org/5woody/book-training.git && cd book-training </p> 
+<p>git clone https://github.com/TengzingSh/laravel-tailwindcss-project.git && cd book-training </p> 
 <p>docker-compose down </p> 
 <p>docker-compose build </p> 
 <p>docker-compose up -d</p> 
